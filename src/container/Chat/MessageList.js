@@ -11,7 +11,10 @@ let MessageList = (props) => {
     messageID,
   } = props;
 
-  let messages = useMemo(() => roomData[messageID] || [], [messageID, roomData]);
+  let messages = useMemo(
+    () => roomData[messageID] || [],
+    [messageID, roomData]
+  );
 
   let messageList = messages.map(
     ({user, body}, idx) => <Message key={idx} user={user} body={body} />

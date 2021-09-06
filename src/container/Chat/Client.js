@@ -29,6 +29,7 @@ let Client = (props) => {
     hasLogin,
     chatRooms, addChatRooms, setChatRooms,
     appendRoomIDData,
+    removeRoom,
   } = props;
 
   let [socket, setSocket] = useState();
@@ -54,6 +55,7 @@ let Client = (props) => {
         console.log(data);
         setChatRooms(data.map(item => {
           return {
+            ...item,
             id: item['message_id'],
           }
         }));
@@ -102,12 +104,21 @@ let Client = (props) => {
     socket.on('new-user-message', (data) => {
       console.log('woah', data);
       addChatRooms({
+        ...data,
         id: data['message_id']
       })
       appendRoomIDData({
         id: data['message_id'],
         data: data['message'],
       });
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on('remove-user-message', (data) => {
+      console.log(data, 'remove-user-message');
+      removeRoom(data);
     });
   }, [socket]);
 
@@ -243,6 +254,7 @@ const mapDispatchToProps = {
   addChatRooms: chatActions.addRooms,
   appendRoomIDData: chatActions.appendRoomIDData,
   setChatRooms: chatActions.setRooms,
+  removeRoom: chatActions.removeRoom,
 };
 
 Client = connect(mapStateToProps, mapDispatchToProps) (Client);

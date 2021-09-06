@@ -1,3 +1,12 @@
+export const removeRoom = (roomID) => ({
+  type: "REMOVE_ROOM",
+  payload: roomID,
+});
+//
+export const updateRooms = (roomObj) => ({
+  type: 'UPDATE_ROOMS',
+  payload: roomObj,
+});
 // {id: msg_id<int, latest_activity_time: <ISO8601>}
 export const addRooms = (roomObj) => ({
   type: 'ADD_ROOMS',

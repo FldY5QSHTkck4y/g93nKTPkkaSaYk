@@ -10,6 +10,25 @@ const reducer = (state=initialState, action) => {
   } = action;
 
   switch(type) {
+    case 'REMOVE_ROOM':
+      let newRoomData = {...state.roomData};
+      delete newRoomData[payload];
+      return {
+        ...state,
+        rooms: state.rooms.filter(item => item['message_id'] !== payload),
+        roomData: newRoomData,
+      };
+    case 'UPDATE_ROOMS':
+      let newUpdatedRooms = state.rooms.map(item => {
+        if (payload['message_id'] === item['message_id']) {
+          return payload;
+        }
+        return item;
+      });
+      return {
+        ...state,
+        rooms: newUpdatedRooms,
+      }
     case 'ADD_ROOMS':
       return {
         ...state,
