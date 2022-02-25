@@ -89,6 +89,8 @@ let Client = (props) => {
         (ack) => {
           if (ack) {
             console.log('connection acknowledged');
+          } else {
+            console.log('no ack');
           }
         }
       );
